@@ -36,6 +36,7 @@ import (
 var useV1 bool
 var useV2 bool
 var useLegacyTLV bool
+var owSrcFilename string
 var encKeyFilename string
 var encKeyIndex int
 var hdrPad int
@@ -140,7 +141,7 @@ func createImageRunCmd(cmd *cobra.Command, args []string) {
 			hdrPad, imagePad, sections, useLegacyTLV)
 	} else {
 		err = imgprod.ProduceAll(b, ver, keys, encKeyFilename, encKeyIndex,
-			hdrPad, imagePad, sections, useLegacyTLV)
+			hdrPad, imagePad, sections, useLegacyTLV, owSrcFilename)
 	}
 	if err != nil {
 		NewtUsage(nil, err)
@@ -208,6 +209,9 @@ func AddImageCommands(cmd *cobra.Command) {
 
 	createImageCmd.PersistentFlags().BoolVarP(&useLegacyTLV,
 		"legacy-tlvs", "L", false, "Use legacy TLV values for NONCE and SECRET_ID")
+
+	createImageCmd.PersistentFlags().StringVarP(&owSrcFilename,
+		"overwrite-src", "W", "", "Overwrite binary image source")
 
 	cmd.AddCommand(createImageCmd)
 	AddTabCompleteFn(createImageCmd, targetList)

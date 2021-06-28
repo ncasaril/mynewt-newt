@@ -321,7 +321,7 @@ func OptsFromTgtBldr(b *builder.TargetBuilder, ver image.ImageVersion,
 
 func ProduceAll(t *builder.TargetBuilder, ver image.ImageVersion,
 	sigKeys []sec.PrivSignKey, encKeyFilename string, encKeyIndex int,
-	hdrPad int, imagePad int, sectionString string, useLegacyTLV bool) error {
+	hdrPad int, imagePad int, sectionString string, useLegacyTLV bool, owSrcFilename string) error {
 
 	elfPath := t.AppBuilder.AppElfPath()
 
@@ -372,6 +372,12 @@ func ProduceAll(t *builder.TargetBuilder, ver image.ImageVersion,
 		hdrPad, imagePad, sections, useLegacyTLV)
 	if err != nil {
 		return err
+	}
+
+	if owSrcFilename != "" {
+		popts.AppSrcFilename = owSrcFilename;
+		popts.AppDstFilename = owSrcFilename + ".img";
+		util.StatusMessage(util.VERBOSITY_DEFAULT, "Overwriting app bin src\n")
 	}
 
 	pset, err := ProduceImages(popts)

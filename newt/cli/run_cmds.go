@@ -109,7 +109,7 @@ func runRunCmd(cmd *cobra.Command, args []string) {
 					hdrPad, imagePad, sections, useLegacyTLV)
 			} else {
 				err = imgprod.ProduceAll(b, ver, keys, encKeyFilename, encKeyIndex,
-					hdrPad, imagePad, sections, useLegacyTLV)
+					hdrPad, imagePad, sections, useLegacyTLV, "")
 			}
 			if err != nil {
 				NewtUsage(nil, err)
